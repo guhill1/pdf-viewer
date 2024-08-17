@@ -3785,7 +3785,7 @@ function getVisibleElements(scrollEl, views) {
       numViews = views.length;
   var firstVisibleElementInd = numViews === 0 ? 0 : binarySearchFirstItem(views, horizontal ? isElementRightAfterViewLeft : isElementBottomAfterViewTop);
 
- 
+
     if (firstVisibleElementInd > 0 && firstVisibleElementInd < numViews && !horizontal) {
       firstVisibleElementInd = backtrackBeforeAllVisibleElements(firstVisibleElementInd, views, top);
     }
@@ -8059,6 +8059,7 @@ function () {
     value: function navigateTo(dest) {
       var _this = this;
 
+
       var goToDestination = function goToDestination(_ref2) {
         var namedDest = _ref2.namedDest,
             explicitDest = _ref2.explicitDest;
@@ -8084,13 +8085,16 @@ function () {
           }
         } else if (Number.isInteger(destRef)) {
           pageNumber = destRef + 1;
+
         } else {
           console.error("PDFLinkService.navigateTo: \"".concat(destRef, "\" is not ") + "a valid destination reference, for dest=\"".concat(dest, "\"."));
+
           return;
         }
 
         if (!pageNumber || pageNumber < 1 || pageNumber > _this.pagesCount) {
           console.error("PDFLinkService.navigateTo: \"".concat(pageNumber, "\" is not ") + "a valid page number, for dest=\"".concat(dest, "\"."));
+
           return;
         }
 
@@ -8133,6 +8137,9 @@ function () {
         }
 
         goToDestination(data);
+
+		//GH: fix Flip_Book mode bookmark link show blank page
+		PDFViewerApplication.pdfViewer.update();
       });
     }
   }, {
@@ -13213,10 +13220,21 @@ function () {
         eventBus.dispatch('previouspage', {
           source: self
         });
+
+		//GH: fix Flip_Book mode prevpage button show blank page
+		eventBus.dispatch('resize', {
+          source: window
+        });
+
       });
       items.next.addEventListener('click', function () {
         eventBus.dispatch('nextpage', {
           source: self
+        });
+
+		//GH: fix Flip_Book mode nextpage button show blank page
+		eventBus.dispatch('resize', {
+          source: window
         });
       });
       items.zoomIn.addEventListener('click', function () {
@@ -13237,6 +13255,12 @@ function () {
           source: self,
           value: this.value
         });
+
+		//GH: fix Flip_Book mode page number entered and show blank page
+		eventBus.dispatch('resize', {
+          source: window
+        });
+
       });
       items.scaleSelect.addEventListener('change', function () {
         if (this.value === 'custom') {
