@@ -13222,10 +13222,7 @@ function () {
         });
 
 		//GH: fix Flip_Book mode prevpage button show blank page
-		eventBus.dispatch('resize', {
-          source: window
-        });
-
+		PDFViewerApplication.pdfViewer.update();
       });
       items.next.addEventListener('click', function () {
         eventBus.dispatch('nextpage', {
@@ -13233,9 +13230,7 @@ function () {
         });
 
 		//GH: fix Flip_Book mode nextpage button show blank page
-		eventBus.dispatch('resize', {
-          source: window
-        });
+		PDFViewerApplication.pdfViewer.update();
       });
       items.zoomIn.addEventListener('click', function () {
         eventBus.dispatch('zoomin', {
@@ -13257,10 +13252,7 @@ function () {
         });
 
 		//GH: fix Flip_Book mode page number entered and show blank page
-		eventBus.dispatch('resize', {
-          source: window
-        });
-
+		PDFViewerApplication.pdfViewer.update();
       });
       items.scaleSelect.addEventListener('change', function () {
         if (this.value === 'custom') {
